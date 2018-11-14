@@ -22,11 +22,11 @@ The DriftrockAPI class gets the data from the driftrock api.
 
 ## What can be improved
 
-Parsed the json data properly so the tests run as expected. At the moment three
-of them are red. In DataProcessor class, if you change the keys (for accessing the hash) from current strings to symbols, all the tests are green. 
-Dry the App class in order to have non repetition.
-Manage age cases, like when there are two or more items that have been sold the most. The same with most loyal user.
-Write at least one more test for each method.
+- Parsed the json data properly so the tests run as expected. At the moment three
+of them are red. In DataProcessor class, if you change the keys (for accessing the hash) from current strings to symbols, all the tests are green.
+- Dry the App class in order to have non repetition.
+- Manage age cases, like when there are two or more items that have been sold the most. The same with most loyal user.
+- Write at least one more test for each method.
 
 ## Technologies used
 
