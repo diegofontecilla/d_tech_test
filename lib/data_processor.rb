@@ -3,10 +3,8 @@ require 'json'
 class DataProcessor
 
   def initialize(purchases, users = nil)
-    purchases_json = JSON.parse(purchases)
-    users_parsed = JSON.parse(users)
-    @purchases = purchases_json
-    @users = users_parsed
+    @purchases = purchases
+    @users = users
   end
 
   def most_founded_item
@@ -16,17 +14,17 @@ class DataProcessor
   end
 
   def most_loyal_user
-    users_array = @users[:data]
+    users_array = @users['data']
     users_array.map do |user|
-      return user[:email] if user[:id] == most_founded_item
+      return user['email'] if user['id'] == most_founded_item
     end
   end
 
   def get_total_spent(email)
     id = find_id(email)
     spent = 0
-    @purchases[:data].each do |purchase|
-      spent += purchase[:spend].to_f if purchase[:user_id] == id
+    @purchases['data'].each do |purchase|
+      spent += purchase['spend'].to_f if purchase['user_id'] == id
     end
     spent
   end
@@ -34,16 +32,16 @@ class DataProcessor
   private
 
   def find_id(email)
-    users_array = @users[:data]
+    users_array = @users['data']
     users_array.map do |user|
-      return user[:id] if user[:email] == email
+      return user['id'] if user['email'] == email
     end
   end
 
   def get_elements
     elements_array = []
-    @users == nil ? key = :item : key = :user_id
-    @purchases[:data].each {|purchase| elements_array << purchase[key]}
+    @users == nil ? key = 'item' : key = 'user_id'
+    @purchases['data'].each {|purchase| elements_array << purchase[key]}
     elements_array
   end
 
