@@ -18,7 +18,23 @@ class DataProcessor
     end
   end
 
+  def get_total_spent(email)
+    id = find_id(email)
+    spent = 0
+    @purchases[:data].each do |purchase|
+      spent += purchase[:spend].to_f if purchase[:user_id] == id
+    end
+    spent
+  end
+
   private
+
+  def find_id(email)
+    users_array = @users[:data]
+    users_array.map do |user|
+      return user[:id] if user[:email] == email
+    end
+  end
 
   def get_elements
     elements_array = []

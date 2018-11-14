@@ -11,8 +11,13 @@ describe DataProcessor do
     expect(data_processor.most_founded_item).to eq("Heavy Duty Concrete Watch")
   end
 
-  it '#most_loyal_user returns the email of the users that has bought more times' do
+  it '#most_loyal_user returns the email of the users that has bought more items' do
     data_processor = DataProcessor.new(purchases_hash, users_hash)
     expect(data_processor.most_loyal_user).to eq("travis_kshlerin@wunsch.net")
+  end
+
+  it '#get_total_spent get an email as argument and returns the amount that user has spent' do
+    data_processor = DataProcessor.new(purchases_hash, users_hash)
+    expect(data_processor.get_total_spent('travis_kshlerin@wunsch.net')).to eq(336.76)
   end
 end
