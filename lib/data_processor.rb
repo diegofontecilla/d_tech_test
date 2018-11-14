@@ -1,8 +1,12 @@
+require 'json'
+
 class DataProcessor
 
   def initialize(purchases, users = nil)
-    @purchases = purchases
-    @users = users
+    purchases_json = JSON.parse(purchases)
+    users_parsed = JSON.parse(users)
+    @purchases = purchases_json
+    @users = users_parsed
   end
 
   def most_founded_item

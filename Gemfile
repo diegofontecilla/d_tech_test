@@ -6,6 +6,7 @@ git_source(:github) {|repo_name| "https://github.com/#{repo_name}" }
 
 # gem "rails"
 gem 'httparty', '~> 0.13.7'
+gem 'json', '~> 1.8', '>= 1.8.3'
 
 group :test do
   gem 'rubocop'
