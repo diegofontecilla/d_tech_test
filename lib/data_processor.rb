@@ -11,6 +11,13 @@ class DataProcessor
     count_elements.key(most_founded.max)
   end
 
+  def most_loyal_user
+    users_array = @users[:data]
+    users_array.map do |user|
+      return user[:email] if user[:id] == most_founded_item
+    end
+  end
+
   private
 
   def get_elements
