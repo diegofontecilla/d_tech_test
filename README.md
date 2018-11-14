@@ -17,13 +17,14 @@ ruby app.rb total_spend 'email'
 ## Design
 
 I created the App class as an interface for the user. Through this class the user can interact with the program in order to ask information from the driftrock api.
-The DataProcessor class, the logic part of the program, process the passed json and process it in order to get the #most_founded_item (get the item that is more many times in the hash), the #most_loyal_user (get the user with the biggest number of purchases, and #get_total_spent (which returns the amount the user of the given mail has spent).
+The DataProcessor class, the logic part of the program, process the passed json in order to get the #most_founded_item (get the item that is more many times in the hash), the #most_loyal_user (get the user with the biggest number of purchases), and #get_total_spent (which returns the amount the user's email given has spent).
 The DriftrockAPI class gets the data from the driftrock api.
 
 ## What can be improved
 
 Parsed the json data properly so the tests run as expected.
 Dry the App class in order to have non repetition.
+Manage age cases, like when there are two or more items that have been sold the most. The same with most loyal user.
 
 ## Technologies used
 
