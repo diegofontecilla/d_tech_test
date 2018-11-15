@@ -2,24 +2,21 @@ require 'rubygems'
 require 'httparty'
 
 class DriftrockAPI
-  include HTTParty
-  base_uri("driftrock-dev-test.herokuapp.com")
-
-  def get_purchases
-    purchases
+  def initialize(base_url = "driftrock-dev-test.herokuapp.com")
+    @base_url = base_url
   end
 
-  def get_users
-    users
+  def purchases
+    get('purchases')
+  end
+
+  def users
+    get('users')
   end
 
   private
 
-  def users
-    self.class.get('/users')
-  end
-
-  def purchases
-    self.class.get('/purchases')
+  def get(path)
+    HTTParty.get("http://#{@base_url}/#{path}")
   end
 end

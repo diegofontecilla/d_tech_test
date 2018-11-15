@@ -2,32 +2,42 @@ require_relative './lib/driftrock_API'
 require_relative './lib/data_processor'
 
 class App
-
-  def self.method_matcher(input_array)
-    driftrock_API = DriftrockAPI.new
-    purchases = driftrock_API.get_purchases
-    users = driftrock_API.get_users
-    return most_sold_item(purchases) if input_array[0] == 'most_sold_item'
-    return most_loyal_user(purchases, users) if input_array[0] == 'most_loyal_user'
-    return total_spend(purchases, users, input_array[1]) if input_array[0] == 'total_spend'
+  def initialize(api = DriftrockAPI.new)
+    @api = api
   end
 
-  def self.most_sold_item(purchases)
-    data_processor = DataProcessor.new(purchases)
-    data_processor.most_founded_item
+  def most_sold_item
+    most_frequent('item')
   end
 
-  def self.total_spend(purchases, users, email)
-    data_processor = DataProcessor.new(purchases, users)
-    data_processor.get_total_spent(email)
+  def most_loyal_user
+    user_id = most_frequent('user_id')
+    users.find { |user| user['id'] == user_id }['email']
   end
 
-  def self.most_loyal_user(purchases, users)
-    data_processor = DataProcessor.new(purchases, users)
-    data_processor.most_loyal_user
+  def total_spend
+    user_id = users.find { |user| user['email'] == ARGV.last }['id']
+    user_purchases = purchases.select { |purchase| purchase['user_id'] == user_id }
+    total = 0
+    user_purchases.map { |purchase| total += purchase['spend'].to_f }.last
+  end
+
+  private
+
+  def most_frequent(query)
+    hash = Hash.new(0)
+    purchases.each { |p| hash[p[query]] += 1 }
+    hash.sort_by { |query_item, count| count }.last.first
+  end
+
+  def purchases
+    @api.purchases['data']
+  end
+
+  def users
+    @api.users['data']
   end
 end
 
-input_array = ARGV
-app = App.method_matcher(input_array)
-puts app
+app = App.new
+puts app.send(ARGV.first.to_sym)
