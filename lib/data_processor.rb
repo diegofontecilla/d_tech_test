@@ -1,5 +1,6 @@
 require 'json'
 
+
 class DataProcessor
 
   def initialize(purchases, users = nil)
