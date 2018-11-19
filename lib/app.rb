@@ -1,5 +1,4 @@
-require_relative './lib/driftrock_API'
-require_relative './lib/data_processor'
+require_relative 'driftrock_API'
 
 class App
   def initialize(api = DriftrockAPI.new)
@@ -39,5 +38,5 @@ class App
   end
 end
 
-app = App.new
-puts app.send(ARGV.first.to_sym)
+# app = App.new
+# puts app.send(ARGV.first.to_sym)
