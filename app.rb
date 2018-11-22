@@ -1,43 +1,26 @@
-require_relative './lib/driftrock_API'
-require_relative './lib/data_processor'
+require_relative './lib/purchases'
+require_relative './lib/users'
 
 class App
-  def initialize(api = DriftrockAPI.new)
-    @api = api
+  attr_reader :purchases, :users
+
+  def initialize(purchases, users)
+    @purchases = purchases
+    @users = users
   end
 
   def most_sold_item
-    most_frequent('item')
+    purchases.most_sold_item
   end
 
   def most_loyal_user
-    user_id = most_frequent('user_id')
-    users.find { |user| user['id'] == user_id }['email']
+    users.most_loyal_user
   end
 
   def total_spend
-    user_id = users.find { |user| user['email'] == ARGV.last }['id']
-    user_purchases = purchases.select { |purchase| purchase['user_id'] == user_id }
-    total = 0
-    user_purchases.map { |purchase| total += purchase['spend'].to_f }.last
-  end
-
-  private
-
-  def most_frequent(query)
-    hash = Hash.new(0)
-    purchases.each { |p| hash[p[query]] += 1 }
-    hash.sort_by { |query_item, count| count }.last.first
-  end
-
-  def purchases
-    @api.purchases['data']
-  end
-
-  def users
-    @api.users['data']
+    users.get_total_spend
   end
 end
 
-app = App.new
+app = App.new(Purchases.new, Users.new)
 puts app.send(ARGV.first.to_sym)
