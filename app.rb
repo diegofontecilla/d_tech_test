@@ -18,7 +18,7 @@ class App
   end
 
   def total_spend
-    users.get_total_spend
+    users.total_spend
   end
 end
 
